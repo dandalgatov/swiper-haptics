@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import './App.css';
 import styles from './App.module.css';
 import { useRef, useEffect } from 'react';
@@ -11,23 +10,21 @@ function App() {
 
   const triggerHapticFeedback = () => {
     if (navigator.vibrate) {
-      console.log('haptic')
+      console.log('haptic');
       navigator.vibrate(50);
     }
   };
 
   useEffect(() => {
-    // listen for Swiper events using addEventListener
-    swiperElRef.current.addEventListener('progress', (e) => {
-      const [swiper, progress] = e.detail;
-      console.log(progress);
+    // Set up a timer to trigger haptic pulse every 5 seconds
+    const hapticPulseInterval = setInterval(() => {
       triggerHapticFeedback();
-    });
+    }, 5000);
 
-    swiperElRef.current.addEventListener('slidechange', (e) => {
-      console.log('slide changed');
-      triggerHapticFeedback();
-    });
+    // Clean up the timer when the component is unmounted
+    return () => {
+      clearInterval(hapticPulseInterval);
+    };
   }, []);
 
   const handleAddToCart = (index) => {
