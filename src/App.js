@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import './App.css';
 import styles from './App.module.css';
 import { useRef, useEffect } from 'react';
