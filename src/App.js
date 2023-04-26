@@ -1,12 +1,14 @@
 import './App.css';
 import styles from './App.module.css';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { register } from 'swiper/element/bundle';
 
 register();
 
 function App() {
   const swiperElRef = useRef(null);
+  const [isHapticSupported, setIsHapticSupported] = useState(false);
+
 
   const triggerHapticFeedback = () => {
     if (navigator.vibrate) {
@@ -14,6 +16,16 @@ function App() {
       navigator.vibrate(50);
     }
   };
+
+  useEffect(() => {
+    // Check if Vibration API is supported
+    console.log(navigator)
+    if ('vibrate' in navigator) {
+      setIsHapticSupported(true);
+    } else {
+      setIsHapticSupported(false);
+    }
+  }, []);
 
   useEffect(() => {
     // Set up a timer to trigger haptic pulse every 5 seconds
@@ -32,9 +44,12 @@ function App() {
   };
 
   return (
+    // <div style={{ backgroundColor: `${isHapticSupported ? 'green' : 'red'}`,}}>
     <div>
-      <header className="App-header">
+      <header className="App-header" >
+        <div style={{height: '100px', width: '100px', backgroundColor: `${isHapticSupported ? 'green' : 'red'}`}} />
         <swiper-container
+          style={{backgroundColor: "#FF0000"}}
           ref={swiperElRef}
           slides-per-view="3"
           navigation="true"
